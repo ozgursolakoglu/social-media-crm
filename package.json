@@ -1,0 +1,19 @@
+{
+  "name": "social-media-crm",
+  "version": "1.0.0",
+  "private": true,
+  "description": "CRM to schedule Instagram and Facebook posts",
+  "scripts": {
+    "install-all": "npm install && cd server && npm install && cd ../client && npm install",
+    "dev": "concurrently \"npm run server:dev\" \"npm run client:dev\"",
+    "server:dev": "cd server && npx nodemon server.js",
+    "client:dev": "cd client && npx vite",
+    "build": "cd client && npx vite build",
+    "start": "cd server && node server.js"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  },
+  "keywords": ["crm", "instagram", "facebook", "scheduler", "social-media"],
+  "license": "MIT"
+}
