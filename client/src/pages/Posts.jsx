@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { posts } from '../services/api';
-import { LayerGallery, Camera } from 'lucide-react';
+import { Camera } from 'lucide-react';
 
 export default function Posts() {
   const [list, setList] = useState([]);
