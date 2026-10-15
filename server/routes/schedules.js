@@ -1,10 +1,11 @@
 const express = require('express');
 const router = express.Router();
 const { authenticate } = require('../middleware/auth');
-const { db } = require('../db');
+const { db, rowsToObject } = require('../db');
 
 router.get('/', authenticate, (req, res) => {
-  const schedules = db
+  const columns = ['id', 'scheduled_at', 'recurrence', 'status', 'post_id', 'caption', 'platform_id', 'platform_name', 'type'];
+  const schedules = rowsToObject(columns, db
     .prepare(
       `SELECT s.id, s.scheduled_at, s.recurrence, s.status,
               p.id AS post_id, p.caption,
@@ -15,7 +16,7 @@ router.get('/', authenticate, (req, res) => {
        WHERE p.user_id = ?
        ORDER BY s.scheduled_at ASC`
     )
-    .all(req.user.id);
+    .all(req.user.id));
   res.json(schedules);
 });
 

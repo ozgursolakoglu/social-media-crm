@@ -1,12 +1,14 @@
 const express = require('express');
 const router = express.Router();
 const { authenticate } = require('../middleware/auth');
-const { db } = require('../db');
+const { db, rowsToObject } = require('../db');
 
 router.get('/', authenticate, (_req, res) => {
-  const platforms = db
+  const columns = ['id', 'name', 'type', 'access_token', 'page_id', 'instagram_account_id', 'is_active'];
+  const rows = db
     .prepare('SELECT id, name, type, access_token, page_id, instagram_account_id, is_active FROM platforms ORDER BY id DESC')
     .all();
+  const platforms = rowsToObject(columns, rows);
   res.json(platforms);
 });
 

@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
-const { db } = require('../db');
+const { db, rowToObject } = require('../db');
 
 const JWT_SECRET = process.env.JWT_SECRET || 'dev-secret-change-me';
 
@@ -31,7 +31,8 @@ router.post('/register', (req, res) => {
 router.post('/login', (req, res) => {
   const { email, password } = req.body;
   try {
-    const user = db.prepare('SELECT * FROM users WHERE email = ?').get(email);
+    const user = rowToObject(['id', 'name', 'email', 'password', 'role', 'created_at'],
+      db.prepare('SELECT * FROM users WHERE email = ?').get(email));
     if (!user || !bcrypt.compareSync(password, user.password)) {
       return res.status(401).json({ error: 'Invalid credentials' });
     }

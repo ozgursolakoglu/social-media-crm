@@ -1,12 +1,14 @@
 const express = require('express');
 const router = express.Router();
 const { authenticate } = require('../middleware/auth');
-const { db } = require('../db');
+const { db, rowsToObject } = require('../db');
 
 router.get('/', authenticate, (req, res) => {
-  const posts = db
+  const columns = ['id', 'user_id', 'caption', 'image_url', 'status', 'created_at'];
+  const rows = db
     .prepare('SELECT * FROM posts WHERE user_id = ? ORDER BY created_at DESC')
     .all(req.user.id);
+  const posts = rowsToObject(columns, rows);
   res.json(posts);
 });
 
