@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { posts, platforms } from '../services/api';
+import { posts, platforms, schedules } from '../services/api';
 import { Camera, Clock, Send, Instagram, Facebook } from 'lucide-react';
 
 export default function Compose() {
