@@ -4,6 +4,7 @@ import { auth } from './services/api';
 import Navbar from './components/Navbar';
 import ProtectedRoute from './components/ProtectedRoute';
 import Login from './pages/Login';
+import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
 import Compose from './pages/Compose';
 import Calendar from './pages/Calendar';
@@ -43,6 +44,7 @@ function App() {
         {user && <Navbar user={user} onLogout={() => { localStorage.removeItem('token'); setUser(null); }} />}
         <Routes>
           {!user && <Route path="/login" element={<Login />} />}
+          {!user && <Route path="/register" element={<Register />} />}
           {!user && <Route path="/" element={<Navigate to="/login" replace />} />}
           {user && <Route path="/" element={<Navigate to="/dashboard" replace />} />}
           {user && (
