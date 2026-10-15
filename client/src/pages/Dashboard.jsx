@@ -10,13 +10,35 @@ export default function Dashboard() {
 
   useEffect(() => {
     const load = async () => {
+      let postsData = [];
+      let schedulesData = [];
+      let platformsData = [];
+
       try {
-        const [pRes, sRes, plRes] = await Promise.all([posts.list(), schedules.list(), platforms.list()]);
-        setStats({ posts: pRes.data.length, scheduled: sRes.data.length, platforms: plRes.data.length });
-        setRecent(pRes.data.slice(0, 5));
+        const pRes = await posts.list();
+        postsData = pRes.data || [];
       } catch {
-        setStats({ posts: 0, scheduled: 0, platforms: 0 });
+        postsData = [];
       }
+      try {
+        const sRes = await schedules.list();
+        schedulesData = sRes.data || [];
+      } catch {
+        schedulesData = [];
+      }
+      try {
+        const plRes = await platforms.list();
+        platformsData = plRes.data || [];
+      } catch {
+        platformsData = [];
+      }
+
+      setStats({
+        posts: postsData.length,
+        scheduled: schedulesData.length,
+        platforms: platformsData.length,
+      });
+      setRecent(postsData.slice(0, 5));
     };
     load();
   }, []);
